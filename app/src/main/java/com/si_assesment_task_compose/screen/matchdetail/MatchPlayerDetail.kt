@@ -40,51 +40,52 @@ fun MatchPlayerDetail(navController: NavHostController, matchDetailArgs: MatchDe
         mutableStateListOf<PlayerInfo>()
     }
 
-    matchDetailArgs.getTeams().forEach { team ->
-        team.player?.values?.forEach {
-            if (it != null) {
-                players.add(it)
+    var selectedIndex by remember {
+        mutableStateOf<Int>(0)
+    }
+
+    when (selectedIndex) {
+        0 -> {
+            players.clear()
+            matchDetailArgs.getTeams().forEach { team ->
+                team.player?.values?.forEach {
+                    if (it != null) {
+                        players.add(it)
+                    }
+                }
+            }
+        }
+        1 -> {
+            players.clear()
+            matchDetailArgs.getTeams()[0].player?.values?.forEach {
+                if (it != null) {
+                    players.add(it)
+                }
+            }
+        }
+        2 -> {
+            players.clear()
+            matchDetailArgs.getTeams()[1].player?.values?.forEach {
+                if (it != null) {
+                    players.add(it)
+                }
+            }
+        }
+        else -> {
+            players.clear()
+            matchDetailArgs.getTeams().forEach { team ->
+                team.player?.values?.forEach {
+                    if (it != null) {
+                        players.add(it)
+                    }
+                }
             }
         }
     }
 
     Column {
         TeamSelectionOptions { index ->
-            players.clear()
-            when (index) {
-                0 -> {
-                    matchDetailArgs.getTeams().forEach { team ->
-                        team.player?.values?.forEach {
-                            if (it != null) {
-                                players.add(it)
-                            }
-                        }
-                    }
-                }
-                1 -> {
-                    matchDetailArgs.getTeams()[0].player?.values?.forEach {
-                        if (it != null) {
-                            players.add(it)
-                        }
-                    }
-                }
-                2 -> {
-                    matchDetailArgs.getTeams()[1].player?.values?.forEach {
-                        if (it != null) {
-                            players.add(it)
-                        }
-                    }
-                }
-                else -> {
-                    matchDetailArgs.getTeams().forEach { team ->
-                        team.player?.values?.forEach {
-                            if (it != null) {
-                                players.add(it)
-                            }
-                        }
-                    }
-                }
-            }
+            selectedIndex = index
         }
 
         LazyVerticalGrid(
