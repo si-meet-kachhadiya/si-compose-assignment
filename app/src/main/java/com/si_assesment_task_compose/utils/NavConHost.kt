@@ -1,5 +1,6 @@
 package com.si_assesment_task_compose.utils
 
+import android.net.Uri
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -8,10 +9,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.google.gson.Gson
+import com.si_assesment_task_compose.model.MatchDetail.MatchDetailModel
 import com.si_assesment_task_compose.screen.main.TeamDisplay
 import com.si_assesment_task_compose.screen.matchdetail.MatchPlayerDetail
 import com.si_assesment_task_compose.utils.Route.Home
-import com.si_assesment_task_compose.utils.Route.TeamDetail
 
 @Composable
 fun NavHostContainer(
@@ -37,12 +39,21 @@ fun NavHostContainer(
 
             // route : Home
             composable(Home) {
-                TeamDisplay(navController)
+                TeamDisplay(navController) { matchDetail ->
+                    val searchArgument = Uri.encode(Gson().toJson(matchDetail))
+                    navController.navigate("${MatchDetailPage.route}/$searchArgument")
+                }
             }
 
-            // route : Player detail
-            composable(TeamDetail) {
-                MatchPlayerDetail(navController)
+            composable(
+                route = MatchDetailPage.routeWithArgs,
+                arguments = MatchDetailPage.arguments
+            ) {
+                navBackStackEntry ->
+                val matchDetailArgs =
+                    navBackStackEntry.arguments?.getParcelable<MatchDetailModel>(MatchDetailPage.teamDetailPageParameters)!!
+                MatchPlayerDetail(navController,matchDetailArgs)
+
             }
 
         })

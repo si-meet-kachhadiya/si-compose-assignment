@@ -22,7 +22,10 @@ import com.si_assesment_task_compose.model.MatchDetail.MatchDetailModel
 import com.si_assesment_task_compose.utils.Route.TeamDetail
 
 @Composable
-fun TeamDisplay(navController: NavHostController) {
+fun TeamDisplay(
+    navController: NavHostController,
+    onDetailClick: (pointsTableList: MatchDetailModel?) -> Unit
+) {
 
     val viewModel: MainViewModel = viewModel()
 
@@ -32,7 +35,7 @@ fun TeamDisplay(navController: NavHostController) {
 
     val pointsTableList by viewModel.matches.observeAsState(initial = null)
     MatchCard(pointsTableList) {
-        navController.navigate(TeamDetail,it)
+        onDetailClick.invoke(it)
     }
 }
 

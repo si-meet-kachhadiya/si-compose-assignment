@@ -1,8 +1,11 @@
 package com.si_assesment_task_compose.model.MatchDetail
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Matchdetail(
     @SerializedName("Equation")
     val equation: String?,
@@ -34,4 +37,4 @@ data class Matchdetail(
     val winmargin: String?,
     @SerializedName("Winningteam")
     val winningteam: String?
-)
+) : Parcelable

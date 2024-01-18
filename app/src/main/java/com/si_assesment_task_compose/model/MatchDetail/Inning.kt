@@ -1,8 +1,11 @@
 package com.si_assesment_task_compose.model.MatchDetail
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Inning(
     @SerializedName("AllottedOvers")
     val allottedOvers: String?,
@@ -40,4 +43,4 @@ data class Inning(
     val wickets: String?,
     @SerializedName("Wides")
     val wides: String?
-)
+) : Parcelable
